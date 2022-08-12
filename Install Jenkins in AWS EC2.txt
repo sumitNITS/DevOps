@@ -1,0 +1,136 @@
+Steps for Installing jenkins in AWS EC2 Ubuntu Instance
+-------------------------------------------------------
+step 1: 
+Update the system by using the command
+#sudo apt-get update  
+
+step2:
+Type simply "java"
+It will instruct you to install the java if it's not already installed
+
+OR 
+
+Install java using the command
+#sudo apt install openjdk-11-jre
+
+Check the java installation version using the command
+#java -version
+
+step3:
+Add gpg key for jenkins installation
+
+#wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -        
+
+step4:
+Add the repository address to our /etc/apt/sources.list.d file
+
+#sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+e>     /etc/apt/sources.list.d/jenkins.list'          
+
+step5:
+Update the system by using the command
+#sudo apt-get update  
+
+step6:
+Install jenkins using the command
+
+#sudo apt-get install jenkins
+
+step7:
+Enable jenkins using the command
+
+#sudo systemctl enable jenkins
+
+step8:
+Start jenkins using the command
+
+#sudo systemctl start jenkins
+
+step9:
+Check the jenkins status using the command
+
+#sudo systemctl status jenkins
+
+step10:
+By fefault jenkins runs on the port 8080, so open port 8080 from the Instance
+
+GOTO instance security ----> Security groups ---> Edit inboud rules ---> add the rule for port 8080 (type: custom TCP, Source: 0.0.0.0/0)
+
+step11:
+Visit the instance url with port 8080 for accessing jenkins
+
+<ec2_instance_url>:8080
+
+step12:
+Unlock jenkins by providing the administrator Password 
+Get the administrator Password using the command
+
+#cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy and paste the Password and that's it.
+
+step13:
+stop the jenkins service using the command
+
+#sudo systemctl stop jenkins
+
+Cheers, we are done here!
+-------------------------------------------------------------------------------------
+
+Install jenkins in AWS EC2 ubunth using Docker 
+----------------------------------------------
+step1:
+Install docker
+
+search by "docker" then it will instruct you with a command
+
+OR
+
+#sudo apt install docker.io
+
+step2:
+Pull docker image from docker hub using the command
+sudo docker pull jenkins/jenkins
+
+step3:
+Check the docker images using the command
+
+#sudo docker images
+
+step4:
+Run the jenkins image using the command in deamon mode
+
+#sudo docker run -d -p 8080:8080 <jenkins_image_id>   
+
+step5:
+Check the docker containers using the command
+
+#sudo docker ps
+
+step6:
+Visit the instance url with port 8080 for accessing jenkins
+
+<ec2_instance_url>:8080
+
+step7:
+Unlock jenkins by providing the administrator Password 
+Get the administrator Password using the command
+
+#sudo docker exec -it <container_id> bash
+#cat /var/jenkins_home/secrets/initialAdminPassword
+
+Copy and paste the Password and that's it.
+
+step8:
+Return back to ec2 instance root terminal using the command
+
+#exit
+
+step9:
+For stopping the jenkins service either kill the container having jenkins in it or pause it.
+For this exercise we are pausing the container so that we can access it later by unpausing it.
+
+#sudo docker pause <container_id>
+#sudo docker unpause <container_id>
+
+Cheers, we are done here!
