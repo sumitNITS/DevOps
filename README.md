@@ -1,2 +1,2 @@
 # DevOps
-This repository is created for storing devops related notes
+This repository is created for devops related notes
